@@ -88,4 +88,40 @@ fn main() {
     // Traverse It
     let trees_hit = traverse_path(right_inc, down_inc, tree_map, line_width, depth);
     println!("Trees Hit: {}", trees_hit);
+
+
+    // Part - 2
+    // Check More Slopes
+    let mut trees_hit_mul = 1;
+    let (tree_map, line_width, depth) = get_expanded_map("input.txt".to_string(), 1.0).expect("Unable to build map");
+    let right_inc = 1;
+    let down_inc = 1;
+    let trees_hit = traverse_path(right_inc, down_inc, tree_map, line_width, depth);
+    trees_hit_mul = trees_hit_mul * trees_hit;
+
+    let (tree_map, line_width, depth) = get_expanded_map("input.txt".to_string(), 3.0).expect("Unable to build map");
+    let right_inc = 3;
+    let down_inc = 1;
+    let trees_hit = traverse_path(right_inc, down_inc, tree_map, line_width, depth);
+    trees_hit_mul = trees_hit_mul * trees_hit;
+
+    let (tree_map, line_width, depth) = get_expanded_map("input.txt".to_string(), 5.0).expect("Unable to build map");
+    let right_inc = 5;
+    let down_inc = 1;
+    let trees_hit = traverse_path(right_inc, down_inc, tree_map, line_width, depth);
+    trees_hit_mul = trees_hit_mul * trees_hit;
+
+    let (tree_map, line_width, depth) = get_expanded_map("input.txt".to_string(), 7.0).expect("Unable to build map");
+    let right_inc = 7;
+    let down_inc = 1;
+    let trees_hit = traverse_path(right_inc, down_inc, tree_map, line_width, depth);
+    trees_hit_mul = trees_hit_mul * trees_hit;
+
+    let (tree_map, line_width, depth) = get_expanded_map("input.txt".to_string(), 0.5).expect("Unable to build map");
+    let right_inc = 1;
+    let down_inc = 2;
+    let trees_hit = traverse_path(right_inc, down_inc, tree_map, line_width, depth);
+    trees_hit_mul = trees_hit_mul * trees_hit;
+
+    println!("Multiplaction of Trees Hit: {}", trees_hit_mul);
 }
