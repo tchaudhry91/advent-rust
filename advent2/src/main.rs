@@ -9,12 +9,12 @@ use std::fs;
 struct PolicyPassword {
     password: String,
     policy_char: char,
-    repeat_min: isize,
-    repeat_max: isize,
+    pos1: usize,
+    pos2: usize,
 }
 
 impl PolicyPassword {
-    fn valid(&self) -> bool {
+    fn valid_old(&self) -> bool {
         let mut occur = 0;
         // Get Char Iterator
         for c in self.password.chars() {
@@ -22,10 +22,28 @@ impl PolicyPassword {
                 occur += 1;
             }
         }
-        if occur <= self.repeat_max && occur >= self.repeat_min {
+        if occur <= self.pos2 && occur >= self.pos1 {
             return true;
         }
-        return false;
+        false
+    }
+
+    fn valid(&self) -> bool {
+        let mut chars = self.password.chars();
+        let char1 = match chars.nth(self.pos1 - 1) {
+            Some(s) => s,
+            None => return false,
+        };
+        let mut chars = self.password.chars();
+        let char2 = match chars.nth(self.pos2 - 1) {
+            Some(s) => s,
+            None => return false,
+        };
+
+        if (char1 == self.policy_char) == (char2 == self.policy_char) {
+            return false;
+        }
+        true
     }
 }
 
@@ -39,8 +57,8 @@ fn get_input_data(filename: String) -> Result<Vec<PolicyPassword>, Error> {
             let pass = PolicyPassword {
                 password: cap[4].to_string(),
                 policy_char: cap[3].chars().next().unwrap(),
-                repeat_min: cap[1].parse::<isize>()?,
-                repeat_max: cap[2].parse::<isize>()?,
+                pos1: cap[1].parse::<usize>()?,
+                pos2: cap[2].parse::<usize>()?,
             };
             pass_vec.push(pass);
         }
@@ -56,12 +74,17 @@ fn main() {
     };
 
     let mut valid_passes = 0;
+    let mut valid_old_passes = 0;
 
     for p in input {
         if p.valid() {
             valid_passes += 1;
         }
+        if p.valid_old() {
+            valid_old_passes += 1;
+        }
     }
 
     println!("Number of Valid Password: {}", valid_passes);
+    println!("Number of Valid Old Password: {}", valid_old_passes);
 }
